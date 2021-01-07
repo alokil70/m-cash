@@ -1,0 +1,28 @@
+.m-btn-product {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $padding/2 $padding/2;
+    margin: $margin6/2;
+    color: $color-white;
+    border-radius: 4px;
+    width: 32%;
+    max-height: 120px;
+    user-select: none;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: $color-green;
+}
+
+.m-btn-product:hover {
+    background-color: $color-alt-hover;
+}
+
+.material-icons {
+    margin-right: 8px;
+}
+
+.disabled {
+    pointer-events: none;
+    background-color: #aeaeae;
+}

@@ -1,0 +1,28 @@
+.cash-title-block{
+    left: 0;
+    right: 0;
+    position: fixed;
+    height: $cash-title-block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $color-white;
+    font-size: 24px;
+    background-color: $color-alt-hover;
+}
+
+.cash-block {
+    left: 0;
+    right: 0;
+    position: fixed;
+    margin-top: $nav-bar-height + $margin6;
+    top: 0;
+    bottom: 0;
+}
+
+.cash-function-block {
+    margin-top: $cash-title-block + $margin6;
+    padding-left: $padding/2;
+    display: flex;
+    position: fixed;
+}
