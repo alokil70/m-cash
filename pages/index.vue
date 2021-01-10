@@ -3,8 +3,12 @@
         <div class="cash-title-block">
             <div>Итого: 1400 р {{ quantity }} {{ totalC }} {{ cost }}</div>
             <div class="flex">
-                <m-btn class="bg-green" :title="btnCancel" />
-                <m-btn class="bg-green" :title="btnSave" />
+                <m-btn
+                    class="bg-green"
+                    :title="btnCancel"
+                    @click="canselOrder"
+                />
+                <m-btn class="bg-green" :title="btnSave" @click="saveOrder" />
             </div>
         </div>
         <div class="cash-function-block">
@@ -47,7 +51,6 @@ import MBtn from '@/components/button/m-btn'
 export default {
     name: 'Cash',
     components: { MBtn, MBtnProduct },
-    layout: 'cash',
     async asyncData({ store }) {
         if (
             store.getters['products/PRODUCTS'].length === 0 &&
@@ -63,6 +66,8 @@ export default {
             selectedCategory: null,
             btnSave: 'Сохранить',
             btnCancel: 'Отмена',
+            order: [],
+            orderList: [],
             quantity: null,
             total: 0,
         }
@@ -101,6 +106,22 @@ export default {
         },
         selectCategory(item) {
             this.selectedCategory = item
+        },
+        saveOrder() {
+            this.disabled = true
+            if (!this.order) {
+                this.order.push(this.cart)
+            }
+            this.orderList = this.order
+            this.$store.dispatch('cart/CLEANCART')
+            console.log(this.order)
+            console.log(this.orderList)
+            this.order = []
+            this.orderList.push(this.order)
+            this.disabled = false
+        },
+        canselOrder() {
+            this.$store.dispatch('cart/CLEANCART')
         },
     },
 }

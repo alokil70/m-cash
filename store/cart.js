@@ -12,11 +12,17 @@ export const mutations = {
         }
         state.cart.push({ product, quantity })
     },
+    CLEANCART(state) {
+        state.cart = []
+    }
 }
 export const actions = {
     ADD_TO_CART({ commit }, { product, quantity }) {
         commit('ADD_TO_CART', { product, quantity })
     },
+    CLEANCART({ commit }) {
+        commit('CLEANCART')
+    }
 }
 
 export const getters = {

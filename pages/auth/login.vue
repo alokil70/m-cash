@@ -15,6 +15,7 @@
                                 !$v.login.email.required) ||
                             ($v.login.email.$dirty && !$v.login.email.email),
                     }"
+                    @keyup="enter"
                 />
                 <m-input
                     id="password"
@@ -32,6 +33,7 @@
                             ($v.login.password.$dirty &&
                                 !$v.login.password.minLength),
                     }"
+                    @keyup="enter"
                 />
             </form>
             <div class="flex">
