@@ -48,6 +48,15 @@ export default {
     name: 'Cash',
     components: { MBtn, MBtnProduct },
     layout: 'cash',
+    async asyncData({ store }) {
+        if (
+            store.getters['products/PRODUCTS'].length === 0 &&
+            store.getters['products/CATEGORY'].length === 0
+        ) {
+            await store.dispatch('products/GET_PRODUCTS_FROM_API')
+            await store.dispatch('products/GET_CATEGORY_FROM_API')
+        }
+    },
     data() {
         return {
             URL: '',
@@ -56,15 +65,6 @@ export default {
             btnCancel: 'Отмена',
             quantity: null,
             total: 0,
-        }
-    },
-    async fetch({ store }) {
-        if (
-            store.getters['products/PRODUCTS'].length === 0 &&
-            store.getters['products/CATEGORY'].length === 0
-        ) {
-            await store.dispatch('products/GET_PRODUCTS_FROM_API')
-            await store.dispatch('products/GET_CATEGORY_FROM_API')
         }
     },
     computed: {
@@ -82,13 +82,13 @@ export default {
             return this.total
         },
         itemFilteredList() {
-            return this.products.filter((i) => {
-                if (this.selectedCategory) {
-                    return i.CategoryId === this.selectedCategory.id
-                } else {
-                    return this.products
-                }
-            })
+            if (this.selectedCategory) {
+                return this.products.filter(
+                    (i) => i.CategoryId === this.selectedCategory.id
+                )
+            } else {
+                return []
+            }
         },
     },
     methods: {
@@ -101,9 +101,6 @@ export default {
         },
         selectCategory(item) {
             this.selectedCategory = item
-            const obj = this.category.find(
-                (i) => i.id === this.selectedCategory.id
-            )
         },
     },
 }
