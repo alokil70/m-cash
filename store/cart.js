@@ -14,7 +14,7 @@ export const mutations = {
     },
     CLEANCART(state) {
         state.cart = []
-    }
+    },
 }
 export const actions = {
     ADD_TO_CART({ commit }, { product, quantity }) {
@@ -22,7 +22,7 @@ export const actions = {
     },
     CLEANCART({ commit }) {
         commit('CLEANCART')
-    }
+    },
 }
 
 export const getters = {
