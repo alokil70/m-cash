@@ -6,7 +6,7 @@
                 <m-btn
                     class="bg-green"
                     :title="btnCancel"
-                    @click="canselOrder"
+                    @click="cancelOrder"
                 />
                 <m-btn class="bg-green" :title="btnSave" @click="saveOrder" />
             </div>
@@ -120,7 +120,7 @@ export default {
             this.orderList.push(this.order)
             this.disabled = false
         },
-        canselOrder() {
+        cancelOrder() {
             this.$store.dispatch('cart/CLEANCART')
         },
     },
