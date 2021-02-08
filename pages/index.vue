@@ -1,7 +1,7 @@
 <template>
     <div class="cash-block">
         <div class="cash-title-block">
-            <div>Итого: 1400 р {{ quantity }} {{ totalC }} {{ cost }}</div>
+            <div>Итого: {{ cost }} руб</div>
             <div class="flex">
                 <m-btn
                     class="bg-green"
@@ -80,11 +80,9 @@ export default {
             totalC: (state) => state.cart.totalCost,
         }),
         cost() {
-            this.cart.forEach((item) => {
-                this.total = item.product.price * item.quantity
-            })
-            console.log(this.total)
-            return this.total
+            return this.cart.reduce((sum, item) => {
+                return sum + item.product.price * item.quantity
+            }, 0)
         },
         itemFilteredList() {
             if (this.selectedCategory) {
