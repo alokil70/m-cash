@@ -7,7 +7,7 @@
                         >Клиенты</nuxt-link
                     >
                 </li>
-                <li><nuxt-link to="/company">Компании</nuxt-link></li>
+                <li><nuxt-link to="/">Новый</nuxt-link></li>
                 <li><nuxt-link to="/orders">Заказы</nuxt-link></li>
                 <li>
                     <nuxt-link v-if="$auth.user.admin" to="/manager">

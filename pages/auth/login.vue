@@ -108,7 +108,7 @@ export default {
                         this.login.email = ''
                         this.login.password = ''
                         this.error = e.message
-                        this.$router.push('/')
+                        this.$router.push('/cashShift')
                     })
                     .catch((e) => {
                         this.loading = false

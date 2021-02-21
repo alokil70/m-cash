@@ -14,7 +14,7 @@
         <div class="cash-function-block">
             <div class="table-with-added-product">
                 <div
-                    v-for="item in cart"
+                    v-for="item in order"
                     :key="item.product.id"
                     class="flex-between"
                 >
@@ -44,12 +44,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import MBtnProduct from '@/components/button/m-btn-product'
 import MBtn from '@/components/button/m-btn'
 
 export default {
-    name: 'Index',
+    name: 'Id',
     auth: true,
     components: { MBtn, MBtnProduct },
     async asyncData({ store }) {
@@ -67,8 +67,6 @@ export default {
             selectedCategory: null,
             btnSave: 'Сохранить',
             btnCancel: 'Отмена',
-            order: [],
-            orderList: [],
             quantity: null,
             total: 0,
         }
@@ -78,8 +76,13 @@ export default {
             products: (state) => state.products.products,
             category: (state) => state.products.category,
             cart: (state) => state.cart.cart,
-            totalC: (state) => state.cart.totalCost,
         }),
+        ...mapGetters({
+            getOrder: 'order/GET_ORDER',
+        }),
+        order() {
+            return this.getOrder(Number(this.$route.params.id))
+        },
         cost() {
             return this.cart.reduce((sum, item) => {
                 return sum + item.product.price * item.quantity
@@ -108,15 +111,7 @@ export default {
         },
         saveOrder() {
             this.disabled = true
-            if (!this.order) {
-                this.order.push(this.cart)
-            }
-            this.orderList = this.order
-            this.$store.dispatch('cart/CLEANCART')
-            console.log(this.order)
-            console.log(this.orderList)
-            this.order = []
-            this.orderList.push(this.order)
+            this.$router.push('/orders')
             this.disabled = false
         },
         cancelOrder() {

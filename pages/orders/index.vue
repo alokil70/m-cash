@@ -1,130 +1,89 @@
 <template>
-    <div class="cash-block">
-        <div class="cash-title-block">
-            <div>Итого: 1400 р {{ quantity }} {{ totalC }} {{ cost }}</div>
-            <div class="flex">
+    <div>
+        <div>cash</div>
+        <div>cash</div>
+        <div>cash</div>
+        <div>смена {{ shift.number }}</div>
+        <div>Открыта? {{ shift.isOpen }}</div>
+        <div>
+            <div class="flex w50">
+                <m-btn title="Создать заказ" @click="newOrder"></m-btn>
                 <m-btn
-                    class="bg-green"
-                    :title="btnCancel"
-                    @click="canselOrder"
-                />
-                <m-btn class="bg-green" :title="btnSave" @click="saveOrder" />
+                    v-for="order in orderList"
+                    :key="order.id"
+                    :title="order.number"
+                ></m-btn>
             </div>
-        </div>
-        <div class="cash-function-block">
-            <div class="table-with-added-product">
-                <div
-                    v-for="item in cart"
-                    :key="item.product.id"
-                    class="flex-between"
-                >
-                    <h3>{{ item.product.productName }}</h3>
-                    <h3>{{ item.quantity }} x {{ item.product.price }}р</h3>
-                    <h3>{{ item.product.price * item.quantity }}р</h3>
-                </div>
+            <div class="flex w50">
+                <m-btn title="Создать заказ" @click="newOrder"></m-btn>
+                <m-btn-order
+                    v-for="order in orderListFilter"
+                    :key="order.id"
+                    :object-data="order"
+                ></m-btn-order>
             </div>
-            <div class="product-btn-container">
-                <m-btn-product
-                    v-for="item in itemFilteredList"
-                    :key="item.id"
-                    :title="item.productName"
-                    @click="addToCart(item)"
-                />
-            </div>
-        </div>
-        <div class="cash-bottom-block">
-            <m-btn-product
-                v-for="item in category"
-                :key="item.id"
-                :title="item.categoryName"
-                @click="selectCategory(item)"
-            />
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import MBtnProduct from '@/components/button/m-btn-product'
 import MBtn from '@/components/button/m-btn'
+import { mapState } from 'vuex'
+import MBtnOrder from '@/components/button/m-btn-order'
 
 export default {
-    name: 'Cash',
-    components: { MBtn, MBtnProduct },
+    name: 'Index',
+    components: { MBtnOrder, MBtn },
+    auth: true,
     async asyncData({ store }) {
-        if (
-            store.getters['products/PRODUCTS'].length === 0 &&
-            store.getters['products/CATEGORY'].length === 0
-        ) {
-            await store.dispatch('products/GET_PRODUCTS_FROM_API')
-            await store.dispatch('products/GET_CATEGORY_FROM_API')
+        if (store.getters['order/ORDER_LIST'].length === 0) {
+            await store.dispatch('order/GET_ORDER_LIST_FROM_API')
+            await store.dispatch('cashShift/GET_CASH_SHIFTS_FROM_API')
         }
     },
     data() {
-        return {
-            URL: '',
-            selectedCategory: null,
-            btnSave: 'Сохранить',
-            btnCancel: 'Отмена',
-            order: [],
-            orderList: [],
-            quantity: null,
-            total: 0,
-        }
+        return {}
     },
     computed: {
         ...mapState({
-            products: (state) => state.products.products,
-            category: (state) => state.products.category,
+            orderList: (state) => state.order.orderList,
+            cashShift: (state) => state.cashShift.cashShifts,
             cart: (state) => state.cart.cart,
-            totalC: (state) => state.cart.totalCost,
         }),
-        cost() {
-            this.cart.forEach((item) => {
-                this.total = item.product.price * item.quantity
-            })
-            console.log(this.total)
-            return this.total
+        shift() {
+            return this.cashShift[this.cashShift.length - 1]
         },
-        itemFilteredList() {
-            if (this.selectedCategory) {
-                return this.products.filter(
-                    (i) => i.CategoryId === this.selectedCategory.id
-                )
-            } else {
-                return []
-            }
+        orderListFilter() {
+            return this.orderList.filter(
+                (item) => item.user === this.$auth.user.email
+            )
+        },
+        orderNumber() {
+            return this.orderList[this.orderList.length - 1]
         },
     },
     methods: {
-        addToCart(data) {
-            this.$store.dispatch('cart/ADD_TO_CART', {
-                product: data,
-                quantity: 1,
-            })
-            this.quantity += 1
-        },
-        selectCategory(item) {
-            this.selectedCategory = item
-        },
-        saveOrder() {
-            this.disabled = true
-            if (!this.order) {
-                this.order.push(this.cart)
+        newOrder() {
+            let idx = null
+            if (!this.orderNumber) {
+                idx = 1
+            } else idx = this.orderNumber.number + 1
+            const data = {
+                number: idx,
+                cart: this.cart,
+                user: this.$auth.user.email,
+                CashShiftId: this.shift.id,
             }
-            this.orderList = this.order
-            this.$store.dispatch('cart/CLEANCART')
-            console.log(this.order)
-            console.log(this.orderList)
-            this.order = []
-            this.orderList.push(this.order)
-            this.disabled = false
+            this.$store.dispatch('order/NEW_ORDER', data)
         },
-        canselOrder() {
-            this.$store.dispatch('cart/CLEANCART')
+        closeShift() {
+            this.$store.dispatch('cashShift/CLOSE_SHIFT')
+        },
+        deleteShift() {
+            this.$store.dispatch('cashShift/DELETE_SHIFT')
         },
     },
 }
 </script>
 
-<style></style>
+<style scoped></style>

@@ -1,4 +1,4 @@
-import { URL } from './config/variables'
+import { URL } from './config/var'
 
 export default {
     // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)

@@ -62,9 +62,15 @@ export default {
                     title: 'Логин',
                     type: 'email',
                     field: 'email',
-                    value: 'user12345@gmail.com',
+                    value: 'user1@gmail.com',
                 },
-                { id: 3, title: 'Город', type: 'text', value: 'Пятигорск' },
+                {
+                    id: 3,
+                    title: 'Город',
+                    type: 'text',
+                    field: 'city',
+                    value: 'Пятигорск',
+                },
                 {
                     id: 4,
                     title: 'Компания',
@@ -77,7 +83,7 @@ export default {
                     title: 'Лицензия',
                     type: 'text',
                     field: 'expire',
-                    value: '1980-1-1 00:00:00',
+                    value: '2021-01-01 00:00:00',
                 },
                 {
                     id: 6,
