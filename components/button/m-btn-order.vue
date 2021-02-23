@@ -4,9 +4,11 @@
             class="m-btn"
             :class="className"
             :to="{ name: 'orders-id', params: { id: objectData.id } }"
-            @click="click"
         >
-            <span>{{ objectData.number }}</span>
+            <div>
+                <span>Номер заказа {{ objectData.number }}</span>
+                <span>Всего {{ cost }} руб</span>
+            </div>
         </nuxt-link>
     </div>
 </template>
@@ -34,6 +36,12 @@ export default {
                 disabled: this.disabled,
                 error: this.error,
             }
+        },
+        cost() {
+            return this.objectData.positions.reduce((sum, item) => {
+                console.log(item)
+                return sum + item.product.price * item.quantity
+            }, 0)
         },
     },
     methods: {

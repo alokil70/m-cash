@@ -8,14 +8,6 @@
         <div>
             <div class="flex w50">
                 <m-btn title="Создать заказ" @click="newOrder"></m-btn>
-                <m-btn
-                    v-for="order in orderList"
-                    :key="order.id"
-                    :title="order.number"
-                ></m-btn>
-            </div>
-            <div class="flex w50">
-                <m-btn title="Создать заказ" @click="newOrder"></m-btn>
                 <m-btn-order
                     v-for="order in orderListFilter"
                     :key="order.id"

@@ -84,7 +84,7 @@ export default {
             return this.getOrder(Number(this.$route.params.id))
         },
         cost() {
-            return this.cart.reduce((sum, item) => {
+            return this.order.reduce((sum, item) => {
                 return sum + item.product.price * item.quantity
             }, 0)
         },
