@@ -25,6 +25,7 @@ export const actions = {
     },
     async OPEN_NEW_SHIFT({ commit }, postData) {
         await this.$axios.post('/cashShift', postData)
+        await this.dispatch('cashShift/GET_CASH_SHIFTS_FROM_API')
     },
     async CLOSE_SHIFT({ commit }, postData) {
         const data = {
@@ -32,6 +33,7 @@ export const actions = {
             total: 1200,
         }
         await this.$axios.patch('/cashShift/' + postData, data)
+        await this.dispatch('cashShift/GET_CASH_SHIFTS_FROM_API')
     },
     async DELETE_SHIFT({ commit }, postData) {
         await this.$axios.post('/cashShift/delete/' + postData)

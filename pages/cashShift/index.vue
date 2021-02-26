@@ -3,8 +3,8 @@
         <div>cash</div>
         <div>cash</div>
         <div>cash</div>
-        <div>смена {{ shift.number }}</div>
-        <div>Открыта? {{ shift.isOpen }}</div>
+        <div v-if="shift">смена {{ shift.number }}</div>
+        <div v-if="shift">Открыта? {{ shift.isOpen }}</div>
         <m-btn title="Открыть смену" @click="openShift"></m-btn>
         <m-btn title="Удалить смену" @click="deleteShift"></m-btn>
         <m-btn title="Закрыть смену" @click="closeShift"></m-btn>

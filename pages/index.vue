@@ -18,9 +18,13 @@
                     :key="item.product.id"
                     class="flex-between"
                 >
-                    <h3>{{ item.product.productName }}</h3>
-                    <h3>{{ item.quantity }} x {{ item.product.price }}р</h3>
-                    <h3>{{ item.product.price * item.quantity }}р</h3>
+                    <h3 class="w100p">{{ item.product.productName }}</h3>
+                    <h3 class="w150">
+                        {{ item.quantity }} x {{ item.product.price }} р
+                    </h3>
+                    <h3 class="w100 flex-center-align">
+                        {{ item.product.price * item.quantity }} р
+                    </h3>
                 </div>
             </div>
             <div class="product-btn-container">

@@ -39,7 +39,6 @@ export default {
         },
         cost() {
             return this.objectData.positions.reduce((sum, item) => {
-                console.log(item)
                 return sum + item.product.price * item.quantity
             }, 0)
         },

@@ -1,5 +1,6 @@
 export const state = () => ({
     orderList: [],
+    orderNumber: null,
     totalCost: null,
 })
 
@@ -7,8 +8,14 @@ export const mutations = {
     SET_ORDER_TO_STATE(state, payload) {
         state.orderList = payload
     },
+    ORDER_NUMBER_INCREMENT(state, payload) {
+        state.orderNumber = payload
+    },
 }
 export const actions = {
+    ORDER_NUMBER({ commit }) {
+        commit('ORDER_NUMBER_INCREMENT')
+    },
     async GET_ORDER_LIST_FROM_API({ commit }) {
         const token = this.$auth.getToken('local')
         if (token) {
@@ -41,6 +48,7 @@ export const actions = {
 
 export const getters = {
     ORDER_LIST: (s) => s.orderList,
+    ORDER_NUMBER: (s) => s.orderNumber,
     GET_ORDER: (s) => (id) => {
         return s.orderList.find((u) => u.id === id).positions
     },

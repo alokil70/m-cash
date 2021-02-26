@@ -9,6 +9,7 @@
                     @click="cancelOrder"
                 />
                 <m-btn class="bg-green" :title="btnSave" @click="saveOrder" />
+                <m-btn class="bg-green" :title="btnPay" @click="payOrder" />
             </div>
         </div>
         <div class="cash-function-block">
@@ -18,9 +19,13 @@
                     :key="item.product.id"
                     class="flex-between"
                 >
-                    <h3>{{ item.product.productName }}</h3>
-                    <h3>{{ item.quantity }} x {{ item.product.price }}р</h3>
-                    <h3>{{ item.product.price * item.quantity }}р</h3>
+                    <h3 class="w100p">{{ item.product.productName }}</h3>
+                    <h3 class="w150">
+                        {{ item.quantity }} x {{ item.product.price }} р
+                    </h3>
+                    <h3 class="w100 flex-center-align">
+                        {{ item.product.price * item.quantity }} р
+                    </h3>
                 </div>
             </div>
             <div class="product-btn-container">
@@ -66,6 +71,7 @@ export default {
             URL: '',
             selectedCategory: null,
             btnSave: 'Сохранить',
+            btnPay: 'Оплатить',
             btnCancel: 'Отмена',
             quantity: null,
             total: 0,
@@ -111,6 +117,15 @@ export default {
         },
         saveOrder() {
             this.disabled = true
+            this.$router.push('/orders')
+            this.disabled = false
+        },
+        payOrder() {
+            this.disabled = true
+            this.$store.dispatch('orde', {
+                product: data,
+                quantity: 1,
+            })
             this.$router.push('/orders')
             this.disabled = false
         },
