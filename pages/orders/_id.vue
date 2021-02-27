@@ -2,6 +2,7 @@
     <div class="cash-block">
         <div class="cash-title-block">
             <div class="m12">Итого: {{ cost }} руб</div>
+            <div class="m12">Номер заказа: {{ $route.params.id }}</div>
             <div class="flex">
                 <m-btn
                     class="bg-green"
@@ -15,7 +16,7 @@
         <div class="cash-function-block">
             <div class="table-with-added-product">
                 <div
-                    v-for="item in order"
+                    v-for="item in localCart"
                     :key="item.product.id"
                     class="flex-between"
                 >
@@ -30,7 +31,7 @@
             </div>
             <div class="product-btn-container">
                 <m-btn-product
-                    v-for="item in itemFilteredList"
+                    v-for="item in itemFilteredListByCategory"
                     :key="item.id"
                     :title="item.productName"
                     @click="addToCart(item)"
@@ -66,17 +67,15 @@ export default {
             await store.dispatch('products/GET_CATEGORY_FROM_API')
         }
     },
-    data() {
-        return {
-            URL: '',
-            selectedCategory: null,
-            btnSave: 'Сохранить',
-            btnPay: 'Оплатить',
-            btnCancel: 'Отмена',
-            quantity: null,
-            total: 0,
-        }
-    },
+    data: () => ({
+        selectedCategory: null,
+        btnSave: 'Сохранить',
+        btnPay: 'Оплатить',
+        btnCancel: 'Отмена',
+        quantity: null,
+        total: 0,
+        localCart: [],
+    }),
     computed: {
         ...mapState({
             products: (state) => state.products.products,
@@ -84,17 +83,22 @@ export default {
             cart: (state) => state.cart.cart,
         }),
         ...mapGetters({
-            getOrder: 'order/GET_ORDER',
+            lastShift: 'cashShift/LAST_CASH_SHIFT',
+            getOrder: 'order/GET_ORDER_BY_NUMBER_FILTERED_USER_CASHSHIFT',
         }),
         order() {
-            return this.getOrder(Number(this.$route.params.id))
+            return this.getOrder(
+                Number(this.$route.params.id),
+                this.lastShift,
+                this.$auth.user
+            )
         },
         cost() {
             return this.order.reduce((sum, item) => {
                 return sum + item.product.price * item.quantity
             }, 0)
         },
-        itemFilteredList() {
+        itemFilteredListByCategory() {
             if (this.selectedCategory) {
                 return this.products.filter(
                     (i) => i.CategoryId === this.selectedCategory.id
@@ -104,6 +108,10 @@ export default {
             }
         },
     },
+    mounted() {
+        this.$store.dispatch('cart/CLEANCART')
+        this.localCart = this.order
+    },
     methods: {
         addToCart(data) {
             this.$store.dispatch('cart/ADD_TO_CART', {
@@ -111,19 +119,28 @@ export default {
                 quantity: 1,
             })
             this.quantity += 1
+            this.localCart = this.cart
         },
         selectCategory(item) {
             this.selectedCategory = item
         },
-        saveOrder() {
+        async saveOrder() {
             this.disabled = true
-            this.$router.push('/orders')
+            const data = {
+                number: this.$route.params.id,
+                cart: this.localCart,
+                user: this.$auth.user.email,
+            }
+            console.log(data)
+            await this.$store.dispatch('cart/CLEANCART')
+            await this.$store.dispatch('order/UPDATE_ORDER', data)
+            await this.$router.push('/orders')
             this.disabled = false
         },
         payOrder() {
             this.disabled = true
             this.$store.dispatch('orde', {
-                product: data,
+                product: 1,
                 quantity: 1,
             })
             this.$router.push('/orders')

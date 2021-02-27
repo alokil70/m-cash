@@ -3,10 +3,11 @@
         <nuxt-link
             class="m-btn"
             :class="className"
-            :to="{ name: 'orders-id', params: { id: objectData.id } }"
+            :to="{ name: 'orders-id', params: { id: objectData.number } }"
         >
             <div>
                 <span>Номер заказа {{ objectData.number }}</span>
+                <span>ID {{ objectData.id }}</span>
                 <span>Всего {{ cost }} руб</span>
             </div>
         </nuxt-link>

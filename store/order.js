@@ -1,6 +1,5 @@
 export const state = () => ({
     orderList: [],
-    orderNumber: null,
     totalCost: null,
 })
 
@@ -8,14 +7,9 @@ export const mutations = {
     SET_ORDER_TO_STATE(state, payload) {
         state.orderList = payload
     },
-    ORDER_NUMBER_INCREMENT(state, payload) {
-        state.orderNumber = payload
-    },
 }
+
 export const actions = {
-    ORDER_NUMBER({ commit }) {
-        commit('ORDER_NUMBER_INCREMENT')
-    },
     async GET_ORDER_LIST_FROM_API({ commit }) {
         const token = this.$auth.getToken('local')
         if (token) {
@@ -34,6 +28,10 @@ export const actions = {
         await this.$axios.post('/order', postData)
         await dispatch('GET_ORDER_LIST_FROM_API')
     },
+    async UPDATE_ORDER({ dispatch }, postData) {
+        await this.$axios.patch('/order/' + postData.number, postData)
+        await dispatch('GET_ORDER_LIST_FROM_API')
+    },
     async CLOSE_SHIFT({ commit }, postData) {
         const data = {
             manager: this.$auth.user.email,
@@ -48,9 +46,19 @@ export const actions = {
 
 export const getters = {
     ORDER_LIST: (s) => s.orderList,
-    ORDER_NUMBER: (s) => s.orderNumber,
-    GET_ORDER: (s) => (id) => {
-        return s.orderList.find((u) => u.id === id).positions
+    GET_ORDER_BY_NUMBER_FILTERED_USER_CASHSHIFT: (s) => (
+        number,
+        shift,
+        user
+    ) => {
+        const ordersFilteredByShift = s.orderList.filter(
+            (item) => item.CashShiftId === shift.id
+        )
+        const ordersFilteredByUser = ordersFilteredByShift.filter(
+            (item) => item.user === user.email
+        )
+        return ordersFilteredByUser.find((item) => item.number === number)
+            .positions
     },
     ORDER_LIST_FILTERED: (s) => s.orderList.filter((item) => item.user === 3),
 }

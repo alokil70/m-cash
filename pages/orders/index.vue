@@ -3,6 +3,15 @@
         <div>cash</div>
         <div>cash</div>
         <div>cash</div>
+        <div class="flex p5-0">
+            Смена
+            <m-btn-product
+                v-for="item in cashShift"
+                :key="item.id"
+                :title="item.number"
+                @click="cashShiftHistoryView(item.id)"
+            ></m-btn-product>
+        </div>
         <div>смена {{ shift.number }}</div>
         <div>Открыта? {{ shift.isOpen }}</div>
         <div>Всего {{ total }}</div>
@@ -13,12 +22,11 @@
                     class="w100"
                     @click="newOrder"
                 ></m-btn>
-                <div class="flex">
+                <div class="product-btn-container">
                     <m-btn-order
-                        v-for="order in orderListFilter"
+                        v-for="order in orderListFilterByUser"
                         :key="order.id"
                         :object-data="order"
-                        class="w200 m12"
                     ></m-btn-order>
                 </div>
             </div>
@@ -30,10 +38,11 @@
 import MBtn from '@/components/button/m-btn'
 import { mapState } from 'vuex'
 import MBtnOrder from '@/components/button/m-btn-order'
+import MBtnProduct from '@/components/button/m-btn-product'
 
 export default {
     name: 'Index',
-    components: { MBtnOrder, MBtn },
+    components: { MBtnProduct, MBtnOrder, MBtn },
     auth: true,
     async asyncData({ store }) {
         if (store.getters['order/ORDER_LIST'].length === 0) {
@@ -41,56 +50,50 @@ export default {
             await store.dispatch('cashShift/GET_CASH_SHIFTS_FROM_API')
         }
     },
-    data() {
-        return {}
-    },
+    data: () => ({
+        cashShiftLenghtChange: null,
+    }),
     computed: {
         ...mapState({
             orderList: (state) => state.order.orderList,
             cashShift: (state) => state.cashShift.cashShifts,
             cart: (state) => state.cart.cart,
-            orderNumber: (state) => state.order.orderNumber,
         }),
         shift() {
-            return this.cashShift[this.cashShift.length - 1]
+            return this.cashShift.find((item) => item.id === this.lastShift.id)
         },
-        orderListFilter() {
-            const orderFilteredByShift = this.orderList.filter(
+        lastShift() {
+            const last = this.cashShift[this.cashShift.length - 1]
+            if (this.cashShiftLenghtChange) {
+                return this.cashShift.find(
+                    (item) => item.id === this.cashShiftLenghtChange
+                )
+            }
+            return last
+        },
+        orderListFilterByUser() {
+            const ordersFilteredByShift = this.orderList.filter(
                 (item) => item.CashShiftId === this.shift.id
             )
-            return orderFilteredByShift.filter(
+            return ordersFilteredByShift.filter(
                 (item) => item.user === this.$auth.user.email
             )
         },
-        /* orderNumber() {
-            return this.orderList[this.orderList.length - 1]
-        }, */
-        /* total() {
-            return this.orderListFilter.reduce((sum, item) => {
-                return (
-                    sum +
-                    item.positions.reduce((sum1, item) => {
-                        return sum1 + item.product.price * item.quantity
-                    }, 0)
-                )
-            })
-        }, */
     },
     methods: {
-        newOrder() {
-            let idx = null
+        async newOrder() {
             if (this.shift.isOpen) {
-                if (!this.orderNumber) {
-                    idx = 1
-                } else idx = this.orderNumber.number + 1
                 const data = {
-                    number: idx,
                     cart: this.cart,
                     user: this.$auth.user.email,
                     CashShiftId: this.shift.id,
                 }
-                this.$store.dispatch('order/NEW_ORDER', data)
-                this.$store.$router.push('/orders/' + idx)
+                await this.$store.dispatch('cart/CLEANCART')
+                await this.$store.dispatch('order/NEW_ORDER', data)
+                const lastOrder = this.orderListFilterByUser[
+                    this.orderListFilterByUser.length - 1
+                ].number
+                await this.$store.$router.push('/orders/' + lastOrder)
             }
         },
         closeShift() {
@@ -98,6 +101,9 @@ export default {
         },
         deleteShift() {
             this.$store.dispatch('cashShift/DELETE_SHIFT')
+        },
+        cashShiftHistoryView(id) {
+            this.cashShiftLenghtChange = id
         },
     },
 }

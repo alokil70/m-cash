@@ -42,4 +42,5 @@ export const actions = {
 
 export const getters = {
     CASH_SHIFTS: (s) => s.cashShifts,
+    LAST_CASH_SHIFT: (s) => s.cashShifts[s.cashShifts.length - 1],
 }
