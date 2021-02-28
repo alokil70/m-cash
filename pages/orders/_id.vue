@@ -130,6 +130,8 @@ export default {
                 number: this.$route.params.id,
                 cart: this.localCart,
                 user: this.$auth.user.email,
+                isPayed: false,
+                totalCostOrder: null,
             }
             console.log(data)
             await this.$store.dispatch('cart/CLEANCART')
@@ -137,17 +139,25 @@ export default {
             await this.$router.push('/orders')
             this.disabled = false
         },
-        payOrder() {
+        async payOrder() {
             this.disabled = true
-            this.$store.dispatch('orde', {
-                product: 1,
-                quantity: 1,
-            })
-            this.$router.push('/orders')
+            const data = {
+                number: this.$route.params.id,
+                cart: this.localCart,
+                user: this.$auth.user.email,
+                isPayed: true,
+                totalCostOrder: this.cost,
+            }
+            console.log(data)
+            console.log(this.order)
+            await this.$store.dispatch('cart/CLEANCART')
+            await this.$store.dispatch('order/UPDATE_ORDER', data)
+            await this.$router.push('/orders')
             this.disabled = false
         },
         cancelOrder() {
             this.$store.dispatch('cart/CLEANCART')
+            this.$router.push('/orders')
         },
     },
 }

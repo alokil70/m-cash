@@ -2,7 +2,6 @@
     <div>
         <div>cash</div>
         <div>cash</div>
-        <div>cash</div>
         <div class="flex p5-0">
             Смена
             <m-btn-product
@@ -12,21 +11,24 @@
                 @click="cashShiftHistoryView(item.id)"
             ></m-btn-product>
         </div>
-        <div>смена {{ shift.number }}</div>
-        <div>Открыта? {{ shift.isOpen }}</div>
-        <div>Всего {{ total }}</div>
+        <div class="flex">
+            <div class="m12">смена {{ shift.number }}</div>
+            <div class="m12">Открыта? {{ shift.isOpen }}</div>
+            <div class="m12">Всего {{ total }}</div>
+        </div>
         <div>
-            <div class="flex">
+            <div class="flex m12">
                 <m-btn
                     title="Создать заказ"
-                    class="w100"
+                    class="bg-green w200 m12"
                     @click="newOrder"
                 ></m-btn>
                 <div class="product-btn-container">
                     <m-btn-order
-                        v-for="order in orderListFilterByUser"
+                        v-for="order in orderListFilterByUserAndShift"
                         :key="order.id"
                         :object-data="order"
+                        class="m12 w400"
                     ></m-btn-order>
                 </div>
             </div>
@@ -71,13 +73,14 @@ export default {
             }
             return last
         },
-        orderListFilterByUser() {
+        orderListFilterByUserAndShift() {
             const ordersFilteredByShift = this.orderList.filter(
                 (item) => item.CashShiftId === this.shift.id
             )
-            return ordersFilteredByShift.filter(
+            const ordersFilteredByUser = ordersFilteredByShift.filter(
                 (item) => item.user === this.$auth.user.email
             )
+            return ordersFilteredByUser.sort((a, b) => a.number - b.number)
         },
     },
     methods: {
@@ -90,10 +93,10 @@ export default {
                 }
                 await this.$store.dispatch('cart/CLEANCART')
                 await this.$store.dispatch('order/NEW_ORDER', data)
-                const lastOrder = this.orderListFilterByUser[
-                    this.orderListFilterByUser.length - 1
+                const lastOrderNumber = this.orderListFilterByUserAndShift[
+                    this.orderListFilterByUserAndShift.length - 1
                 ].number
-                await this.$store.$router.push('/orders/' + lastOrder)
+                await this.$store.$router.push('/orders/' + lastOrderNumber)
             }
         },
         closeShift() {
