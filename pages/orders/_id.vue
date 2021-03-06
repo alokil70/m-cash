@@ -144,7 +144,7 @@ export default {
             this.disabled = true
             const data = {
                 id: this.order.id,
-                cart: this.localCart,
+                positions: this.localCart,
                 user: this.$auth.user.email,
                 isPayed: true,
                 totalCostOrder: this.cost,
