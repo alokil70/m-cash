@@ -93,11 +93,11 @@ export default {
                 this.$auth.user
             )
         },
-        cost() {
+        /* cost() {
             return this.order.reduce((sum, item) => {
                 return sum + item.product.price * item.quantity
             }, 0)
-        },
+        }, */
         itemFilteredListByCategory() {
             if (this.selectedCategory) {
                 return this.products.filter(
@@ -110,7 +110,8 @@ export default {
     },
     mounted() {
         this.$store.dispatch('cart/CLEANCART')
-        this.localCart = this.order
+        this.localCart = this.order.positions
+        console.log(this.order)
     },
     methods: {
         addToCart(data) {
@@ -127,8 +128,8 @@ export default {
         async saveOrder() {
             this.disabled = true
             const data = {
-                number: this.$route.params.id,
-                cart: this.localCart,
+                id: this.order.id,
+                positions: this.localCart,
                 user: this.$auth.user.email,
                 isPayed: false,
                 totalCostOrder: null,
@@ -142,7 +143,7 @@ export default {
         async payOrder() {
             this.disabled = true
             const data = {
-                number: this.$route.params.id,
+                id: this.order.id,
                 cart: this.localCart,
                 user: this.$auth.user.email,
                 isPayed: true,

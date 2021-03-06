@@ -29,7 +29,7 @@ export const actions = {
         await dispatch('GET_ORDER_LIST_FROM_API')
     },
     async UPDATE_ORDER({ dispatch }, postData) {
-        await this.$axios.patch('/order/' + postData.number, postData)
+        await this.$axios.patch('/order/' + postData.id, postData)
         await dispatch('GET_ORDER_LIST_FROM_API')
     },
     async CLOSE_SHIFT({ commit }, postData) {
@@ -58,7 +58,6 @@ export const getters = {
             (item) => item.user === user.email
         )
         return ordersFilteredByUser.find((item) => item.number === number)
-            .positions
     },
     ORDER_LIST_FILTERED: (s) => s.orderList.filter((item) => item.user === 3),
 }
