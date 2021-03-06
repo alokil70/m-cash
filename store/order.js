@@ -25,7 +25,9 @@ export const actions = {
         }
     },
     async NEW_ORDER({ dispatch }, postData) {
+        console.log('store/order.js - postData before send to api', postData)
         await this.$axios.post('/order', postData)
+        console.log('store/order.js - postData sended to api', postData)
         await dispatch('GET_ORDER_LIST_FROM_API')
     },
     async UPDATE_ORDER({ dispatch }, postData) {

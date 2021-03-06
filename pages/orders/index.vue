@@ -7,7 +7,7 @@
             <m-btn-product
                 v-for="item in cashShift"
                 :key="item.id"
-                :title="item.number"
+                :title="String(item.number)"
                 @click="cashShiftHistoryView(item.id)"
             ></m-btn-product>
         </div>
@@ -82,16 +82,18 @@ export default {
             )
             return ordersFilteredByUser.sort((a, b) => a.number - b.number)
         },
+        total() {
+            return 1
+        },
     },
     methods: {
         async newOrder() {
             if (this.shift.isOpen) {
                 const data = {
-                    cart: this.cart,
                     user: this.$auth.user.email,
                     CashShiftId: this.shift.id,
                 }
-                await this.$store.dispatch('cart/CLEANCART')
+                await this.$store.dispatch('cart/CLEAN_CART')
                 await this.$store.dispatch('order/NEW_ORDER', data)
                 const lastOrderNumber = this.orderListFilterByUserAndShift[
                     this.orderListFilterByUserAndShift.length - 1

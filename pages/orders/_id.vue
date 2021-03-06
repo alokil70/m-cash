@@ -93,11 +93,16 @@ export default {
                 this.$auth.user
             )
         },
-        /* cost() {
-            return this.order.reduce((sum, item) => {
-                return sum + item.product.price * item.quantity
-            }, 0)
-        }, */
+        cost() {
+            console.log('before enter if', this.order)
+            if (this.localCart) {
+                console.log('enter if', this.order)
+                return this.localCart.reduce((sum, item) => {
+                    return sum + item.product.price * item.quantity
+                }, 0)
+            }
+            return 0
+        },
         itemFilteredListByCategory() {
             if (this.selectedCategory) {
                 return this.products.filter(
@@ -109,9 +114,9 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch('cart/CLEANCART')
+        this.$store.dispatch('cart/CLEAN_CART')
         this.localCart = this.order.positions
-        console.log(this.order)
+        console.log('mounted _id', this.order)
     },
     methods: {
         addToCart(data) {
@@ -135,8 +140,9 @@ export default {
                 totalCostOrder: null,
             }
             console.log(data)
-            await this.$store.dispatch('cart/CLEANCART')
+            await this.$store.dispatch('cart/CLEAN_CART')
             await this.$store.dispatch('order/UPDATE_ORDER', data)
+            this.localCart = []
             await this.$router.push('/orders')
             this.disabled = false
         },
@@ -151,13 +157,14 @@ export default {
             }
             console.log(data)
             console.log(this.order)
-            await this.$store.dispatch('cart/CLEANCART')
+            await this.$store.dispatch('cart/CLEAN_CART')
             await this.$store.dispatch('order/UPDATE_ORDER', data)
+            this.localCart = []
             await this.$router.push('/orders')
             this.disabled = false
         },
         cancelOrder() {
-            this.$store.dispatch('cart/CLEANCART')
+            this.$store.dispatch('cart/CLEAN_CART')
             this.$router.push('/orders')
         },
     },

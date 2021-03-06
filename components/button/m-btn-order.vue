@@ -7,6 +7,7 @@
         >
             <div class="m12">
                 <span class="m12">Номер заказа: {{ objectData.number }}</span>
+                <span class="m12">ID: {{ objectData.id }}</span>
                 <span class="m12">Итого: {{ cost }} руб</span>
             </div>
         </nuxt-link>
@@ -38,9 +39,12 @@ export default {
             }
         },
         cost() {
-            return this.objectData.positions.reduce((sum, item) => {
-                return sum + item.product.price * item.quantity
-            }, 0)
+            if (this.objectData.positions) {
+                return this.objectData.positions.reduce((sum, item) => {
+                    return sum + item.product.price * item.quantity
+                }, 0)
+            }
+            return 0
         },
     },
     methods: {
