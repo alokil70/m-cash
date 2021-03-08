@@ -127,6 +127,7 @@ export default {
         this.$store.dispatch('cart/CLEAN_CART')
         this.localCart = this.order.positions
         console.log('mounted _id', this.order)
+        this.selectedCategory = this.category[0]
     },
     methods: {
         addToCart(data) {
