@@ -7,7 +7,6 @@
         >
             <div class="m12">
                 <span class="m12">Номер заказа: {{ objectData.number }}</span>
-                <span class="m12">ID: {{ objectData.id }}</span>
                 <span class="m12">Итого: {{ cost }} руб</span>
             </div>
         </nuxt-link>

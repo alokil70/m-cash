@@ -37,6 +37,7 @@ export default {
     methods: {
         openShift() {
             this.$store.dispatch('cashShift/OPEN_NEW_SHIFT')
+            this.$router.push('/orders')
         },
         closeShift() {
             this.$store.dispatch('cashShift/CLOSE_SHIFT', this.shift.id)

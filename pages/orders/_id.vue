@@ -9,8 +9,18 @@
                     :title="btnCancel"
                     @click="cancelOrder"
                 />
-                <m-btn class="bg-green" :title="btnSave" @click="saveOrder" />
-                <m-btn class="bg-green" :title="btnPay" @click="payOrder" />
+                <m-btn
+                    class="bg-green"
+                    :title="btnSave"
+                    :disabled="!localCart"
+                    @click="saveOrder"
+                />
+                <m-btn
+                    class="bg-green"
+                    :title="btnPay"
+                    :disabled="!localCart"
+                    @click="payOrder"
+                />
             </div>
         </div>
         <div class="cash-function-block">
