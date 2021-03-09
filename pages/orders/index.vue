@@ -14,7 +14,7 @@
         <div class="flex">
             <div class="m12">смена {{ shift.number }}</div>
             <div class="m12">Открыта? {{ shift.isOpen }}</div>
-            <div class="m12">Всего {{ total }}</div>
+            <div class="m12">Всего {{ total }} руб</div>
         </div>
         <div>
             <div class="flex m12">
@@ -83,7 +83,9 @@ export default {
             return ordersFilteredByUser.sort((a, b) => a.number - b.number)
         },
         total() {
-            return 1
+            return this.orderListFilterByUserAndShift.reduce((sum, item) => {
+                return sum + item.totalCostOrder
+            }, 0)
         },
     },
     methods: {
