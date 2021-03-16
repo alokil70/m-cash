@@ -53,7 +53,7 @@ export default {
         }
     },
     data: () => ({
-        cashShiftLenghtChange: null,
+        cashShiftLengthChange: null,
     }),
     computed: {
         ...mapState({
@@ -66,9 +66,9 @@ export default {
         },
         lastShift() {
             const last = this.cashShift[this.cashShift.length - 1]
-            if (this.cashShiftLenghtChange) {
+            if (this.cashShiftLengthChange) {
                 return this.cashShift.find(
-                    (item) => item.id === this.cashShiftLenghtChange
+                    (item) => item.id === this.cashShiftLengthChange
                 )
             }
             return last
@@ -110,7 +110,7 @@ export default {
             this.$store.dispatch('cashShift/DELETE_SHIFT')
         },
         cashShiftHistoryView(id) {
-            this.cashShiftLenghtChange = id
+            this.cashShiftLengthChange = id
         },
     },
 }

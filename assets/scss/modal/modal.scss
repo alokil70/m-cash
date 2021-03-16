@@ -1,0 +1,61 @@
+.modalWrapper {
+    background: rgba(0, 0, 0, .4);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 39;
+    &__upBar{
+        display: flex;
+        align-items: center;
+        background-color: $nav-bar-back;
+        height: $modal-upBar-height;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+    &__closeBtn{
+        background-color: $color-alt;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: $modal-upBar-height;
+        height: $modal-upBar-height;
+        color: $color-grey;
+        font-size: 30px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        &:hover{
+            background-color: $color-alt-hover;
+            color: $color-white;
+        }
+    }
+}
+
+.popUp {
+    animation-name: popUp;
+    animation-fill-mode: forwards;
+    animation-duration: .3s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes popUp {
+    0% {
+        transform: translateY(-36rem);
+        opacity: 0;
+    }
+    20% {
+        transform: translateY(-12rem);
+        opacity: .2;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

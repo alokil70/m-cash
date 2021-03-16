@@ -1,9 +1,36 @@
 <template>
     <div class="cash-block">
+        <m-modal v-if="modalOpen" @close="modalOpen = !modalOpen">
+            <div class="header flex-center-align m12">Карточка гостя</div>
+            <div>
+                <div class="m12">
+                    <m-input v-model="btnSave" label="Название" />
+                    <m-input v-model="btnSave" label="Цена" />
+                    <m-input v-model="btnSave" label="Описание" />
+                    <m-input :value="selectedCategory" label="Категория" />
+                    <m-input v-model="btnSave" label="Фото" />
+                </div>
+                <div class="flex m12">
+                    <m-btn
+                        class="bg-green"
+                        title="Выбрать"
+                        :disabled="disabled"
+                        @click="saveItem"
+                    ></m-btn>
+                </div>
+            </div>
+            <keyboard-app class="m6" />
+        </m-modal>
         <div class="cash-title-block">
             <div class="m12">Итого: {{ cost }} руб</div>
             <div class="m12">Номер заказа: {{ $route.params.id }}</div>
+            <div class="m12">Гость: Виктор +7 928 753-65-55</div>
             <div class="flex">
+                <m-btn
+                    class="bg-green"
+                    :title="btnGuestChoose"
+                    @click="guestChoose"
+                />
                 <m-btn
                     class="bg-green"
                     :title="btnCancel"
@@ -63,11 +90,14 @@
 import { mapState, mapGetters } from 'vuex'
 import MBtnProduct from '@/components/button/m-btn-product'
 import MBtn from '@/components/button/m-btn'
+import MModal from '@/components/modal/m-modal'
+import MInput from '@/components/form/m-input'
+import KeyboardApp from '@/components/keyboard/keyboardApp'
 
 export default {
     name: 'Id',
     auth: true,
-    components: { MBtn, MBtnProduct },
+    components: { KeyboardApp, MInput, MModal, MBtn, MBtnProduct },
     async asyncData({ store }) {
         if (
             store.getters['products/PRODUCTS'].length === 0 &&
@@ -78,10 +108,12 @@ export default {
         }
     },
     data: () => ({
+        modalOpen: false,
         selectedCategory: null,
         btnSave: 'Сохранить',
         btnPay: 'Оплатить',
         btnCancel: 'Отмена',
+        btnGuestChoose: 'Гость',
         quantity: null,
         total: 0,
         localCart: [],
@@ -140,6 +172,9 @@ export default {
         },
         selectCategory(item) {
             this.selectedCategory = item
+        },
+        guestChoose() {
+            this.modalOpen = true
         },
         async saveOrder() {
             this.disabled = true

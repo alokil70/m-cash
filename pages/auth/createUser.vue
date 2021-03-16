@@ -37,7 +37,7 @@
 
 <script>
 export default {
-    name: 'Register',
+    name: 'CreateUser',
     layout: 'empty',
     auth: false,
     data() {
