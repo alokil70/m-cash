@@ -9,8 +9,10 @@
     width: 32%;
     user-select: none;
     cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
     transition: 0.3s;
-    background-color: $color-green;
+    background-color: $color-grey-dark;
 }
 
 .m-btn-product:hover {

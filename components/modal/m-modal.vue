@@ -2,12 +2,6 @@
     <div>
         <div class="modalWrapper">
             <div class="popUp card">
-                <div class="modalWrapper__upBar">
-                    <div class="white m12">Какой то заголовок</div>
-                    <div class="modalWrapper__closeBtn" @click="$emit('close')">
-                        Х
-                    </div>
-                </div>
                 <div>
                     <slot></slot>
                 </div>

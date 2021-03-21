@@ -17,6 +17,8 @@
 
 @import "color/colors";
 
+@import "keyboard/keyboard";
+
 @import "modal/modal";
 
 @import "table/m-table";
@@ -42,9 +44,18 @@
     font-family: 'Roboto',Tahoma, sans-serif;
     /*font-size: 16px;*/
     line-height: 1.5;
+
 }
 
-body {
+button:active, button:focus {
+    outline: none !important;
+}
+
+button::-moz-focus-inner {
+    border: 0 !important;
+}
+
+html, body {
     background-color: $color-body;
     min-height: 100vh;
     text-shadow: 0 0.015em 0px rgb(0, 0, 0 / 35%), 0.035em 0 0px rgb(0, 0, 0 / 25%);
@@ -56,6 +67,7 @@ body {
 .bg_title {
     background-color: $left-bar-back;
 }
+
 .container {
     margin: $nav-bar-height+$margin $margin 0 $margin;
 }
@@ -66,19 +78,24 @@ body {
     justify-content: center;
     height: 100vh;
 }
+
 .flex {
     display: flex;
 }
+
 .flex-wrap {
     flex-wrap: wrap;
 }
+
 .flex-col {
     flex-direction: column;
 }
+
 .flex-between {
     display: flex;
     justify-content: space-between;
 }
+
 .flex-around {
     display: flex;
     justify-content: space-around;
@@ -90,8 +107,8 @@ body {
     align-items: center;
 }
 
-.height-keyboard {
-    height: $button-height;
+.shadow {
+    box-shadow: 0 0 4px 1px #7f828b;
 }
 
 .w100p {

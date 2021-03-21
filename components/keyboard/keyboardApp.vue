@@ -5,19 +5,57 @@
             @onChange="onChange"
             @onKeyPress="onKeyPress"
         />-->
-        <keys :array-keys="arrayKeys.numbers" />
-        <keys :array-keys="arrayKeys.firstRow" />
-        <keys :array-keys="arrayKeys.secondRow" />
-        <keys :array-keys="arrayKeys.thirdRow" />
-        <keys :array-keys="arrayKeys.fourthRow" />
+        <div class="flex">
+            <m-btn-keyboard
+                v-for="item of arrayKeys.numbers"
+                :title="item"
+                class="black m6"
+                @click="onKeyPress"
+            />
+            <m-btn title="Очистить" @click="clean" />
+        </div>
+        <div class="flex">
+            <m-btn-keyboard
+                v-for="item of arrayKeys.firstRow"
+                :title="item"
+                class="black m6"
+                @click="onKeyPress"
+            />
+        </div>
+        <div class="flex">
+            <m-btn-keyboard
+                v-for="item of arrayKeys.secondRow"
+                :title="item"
+                class="black m6"
+                @click="onKeyPress"
+            />
+        </div>
+        <div class="flex">
+            <m-btn-keyboard
+                v-for="item of arrayKeys.thirdRow"
+                :title="item"
+                class="black m6"
+                @click="onKeyPress"
+            />
+        </div>
+        <div class="flex">
+            <m-btn-keyboard
+                v-for="item of arrayKeys.fourthRow"
+                :title="item"
+                class="black m6"
+                @click="onKeyPress"
+            />
+        </div>
     </div>
 </template>
 
 <script>
-import Keys from '@/components/keyboard/keys'
+import MBtnKeyboard from '@/components/button/m-btn-keyboard'
+import MBtn from '@/components/button/m-btn'
+
 export default {
     name: 'KeyboardApp',
-    components: { Keys },
+    components: { MBtn, MBtnKeyboard },
     data: () => ({
         input: '',
         arrayKeys: {
@@ -42,11 +80,14 @@ export default {
         },
     }),
     methods: {
+        clean() {
+            this.$emit('clean')
+        },
         onChange(input) {
             this.input = input
         },
         onKeyPress(button) {
-            console.log('button', button)
+            this.$emit('click', button)
         },
         onInputChange(input) {
             this.input = input.target.value

@@ -1,8 +1,8 @@
 <template>
-    <div class="m-btn-keyboard" :class="className" @click="click">
+    <button class="m-btn-keyboard" :class="className" @click="click(title)">
         <!--<i class="material-icons">e dit</i>-->
         <span>{{ title }}</span>
-    </div>
+    </button>
 </template>
 
 <script>
@@ -25,8 +25,8 @@ export default {
         },
     },
     methods: {
-        click() {
-            this.$emit('click')
+        click(title) {
+            this.$emit('click', title)
         },
     },
 }

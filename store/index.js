@@ -3,13 +3,13 @@ export const state = () => ({
 })
 
 export const mutations = {
-    SET__TO_STATE(state, payload) {
+    SET_TO_STATE(state, payload) {
         state.srvUser = payload
     },
 }
 
 export const actions = {
-    GET__FROM_API({ commit }) {
+    GET_FROM_API({ commit }) {
         const token = this.$auth.getToken('local')
         if (token) {
             this.$axios({
@@ -19,8 +19,14 @@ export const actions = {
                     Authorization: 'Bearer ' + token.split(' ')[2],
                 },
             }).then((response) => {
-                commit('SET__TO_STATE', response.data)
+                commit('SET_TO_STATE', response.data)
             })
         }
+    },
+}
+
+export const getters = {
+    getServerUser: (state) => {
+        return state.srvUser
     },
 }

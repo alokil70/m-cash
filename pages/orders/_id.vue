@@ -2,13 +2,22 @@
     <div class="cash-block">
         <m-modal v-if="modalOpen" @close="modalOpen = !modalOpen">
             <div class="header flex-center-align m12">Карточка гостя</div>
-            <div>
+            <div class="flex-around">
                 <div class="m12">
-                    <m-input v-model="btnSave" label="Название" />
-                    <m-input v-model="btnSave" label="Цена" />
-                    <m-input v-model="btnSave" label="Описание" />
-                    <m-input :value="selectedCategory" label="Категория" />
-                    <m-input v-model="btnSave" label="Фото" />
+                    <div>
+                        <div class="flex">
+                            <m-input v-model="input" label="Название" />
+                            <m-input v-model="input" label="Цена" />
+                            <m-input v-model="input" label="Описание" />
+                        </div>
+                        <div class="flex">
+                            <m-input
+                                :value="selectedCategory"
+                                label="Категория"
+                            />
+                            <m-input v-model="btnSave" label="Фото" />
+                        </div>
+                    </div>
                 </div>
                 <div class="flex m12">
                     <m-btn
@@ -19,31 +28,36 @@
                     ></m-btn>
                 </div>
             </div>
-            <keyboard-app class="m6" />
+            <div class="bg-red">1</div>
+            <keyboard-app
+                class="m6 card bg_title keyboard"
+                @click="keyboard"
+                @clean="cleanKeyboardInput"
+            />
         </m-modal>
         <div class="cash-title-block">
-            <div class="m12">Итого: {{ cost }} руб</div>
-            <div class="m12">Номер заказа: {{ $route.params.id }}</div>
-            <div class="m12">Гость: Виктор +7 928 753-65-55</div>
+            <div class="m12 fz20">Итого: {{ cost }} руб</div>
+            <div class="m12 fz20">Номер заказа: {{ $route.params.id }}</div>
+            <div class="m12 fz20">Гость: Виктор +7 928 753-65-55</div>
             <div class="flex">
                 <m-btn
-                    class="bg-green"
+                    class="bg-green fz22"
                     :title="btnGuestChoose"
                     @click="guestChoose"
                 />
                 <m-btn
-                    class="bg-green"
+                    class="bg-green fz22"
                     :title="btnCancel"
                     @click="cancelOrder"
                 />
                 <m-btn
-                    class="bg-green"
+                    class="fz22"
                     :title="btnSave"
                     :disabled="!localCart"
                     @click="saveOrder"
                 />
                 <m-btn
-                    class="bg-green"
+                    class="fz22"
                     :title="btnPay"
                     :disabled="!localCart"
                     @click="payOrder"
@@ -51,11 +65,11 @@
             </div>
         </div>
         <div class="cash-function-block">
-            <div class="table-with-added-product">
+            <div class="table-with-added-product shadow">
                 <div
                     v-for="item in localCart"
                     :key="item.product.id"
-                    class="flex-between"
+                    class="flex-between m6"
                 >
                     <h3 class="w100p">{{ item.product.productName }}</h3>
                     <h3 class="w150">
@@ -110,6 +124,7 @@ export default {
     data: () => ({
         modalOpen: false,
         selectedCategory: null,
+        input: '',
         btnSave: 'Сохранить',
         btnPay: 'Оплатить',
         btnCancel: 'Отмена',
@@ -162,6 +177,12 @@ export default {
         this.selectedCategory = this.category[0]
     },
     methods: {
+        keyboard(btn) {
+            this.input += btn
+        },
+        cleanKeyboardInput() {
+            this.input = ''
+        },
         addToCart(data) {
             this.$store.dispatch('cart/ADD_TO_CART', {
                 product: data,

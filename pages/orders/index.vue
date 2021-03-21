@@ -21,6 +21,7 @@
                 <m-btn
                     title="Создать заказ"
                     class="bg-green w200 m12"
+                    :disabled="disabled"
                     @click="newOrder"
                 ></m-btn>
                 <div class="product-btn-container">
@@ -53,6 +54,7 @@ export default {
         }
     },
     data: () => ({
+        disabled: false,
         cashShiftLengthChange: null,
     }),
     computed: {
@@ -90,6 +92,7 @@ export default {
     },
     methods: {
         async newOrder() {
+            this.disabled = true
             if (this.shift.isOpen) {
                 const data = {
                     user: this.$auth.user.email,
@@ -102,6 +105,7 @@ export default {
                 ].number
                 await this.$store.$router.push('/orders/' + lastOrderNumber)
             }
+            this.disabled = false
         },
         closeShift() {
             this.$store.dispatch('cashShift/CLOSE_SHIFT')

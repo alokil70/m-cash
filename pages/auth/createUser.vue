@@ -3,27 +3,11 @@
         <div class="auth-card">
             <h1 class="header">Добавить</h1>
             <form @submit.prevent="userRegister">
-                <!--<div>
-                    <label>Username</label>
-                    <input v-model="user.name" type="text" />
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input v-model="user.email" type="email" />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input v-model="user.password" type="password" />
-                </div>
-                <div>
-                    <label>CompanyName</label>
-                    <input v-model="user.company" type="text" />
-                </div>
-                <div>
-                    <label>City</label>
-                    <input v-model="user.city" type="text" />
-                </div>-->
-                <div v-for="item in columnName" :key="item.id">
+                <div
+                    v-for="item in columnName"
+                    :key="item.id"
+                    class="w400 m12 flex-between"
+                >
                     <label>{{ item.title }}</label>
                     <input v-model="item.value" :type="item.type" />
                 </div>
