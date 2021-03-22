@@ -5,9 +5,12 @@
     height: $cash-title-block;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     color: $color-white;
     font-size: 24px;
-    background-color: $color-alt-hover;
+    font-weight: 600;
+    text-shadow: 2px 2px grey;
+    background-color: $color-orange;
 }
 
 .cash-block {

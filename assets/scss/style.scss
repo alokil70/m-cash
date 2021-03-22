@@ -197,7 +197,7 @@ html, body {
 }*/
 
 .page-enter-active, .page-leave-active {
-    transform: translateX(100);
+    transform: translateX(-100rem);
 }
 
 .page-enter, .page-leave-to {

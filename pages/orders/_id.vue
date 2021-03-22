@@ -36,28 +36,28 @@
             />
         </m-modal>
         <div class="cash-title-block">
-            <div class="m12 fz20">Итого: {{ cost }} руб</div>
-            <div class="m12 fz20">Номер заказа: {{ $route.params.id }}</div>
-            <div class="m12 fz20">Гость: Виктор +7 928 753-65-55</div>
+            <div class="m12">Итого: {{ cost }} руб</div>
+            <div class="m12">Номер заказа: {{ $route.params.id }}</div>
+            <div class="m12">Гость: Виктор +7 928 753-65-55</div>
             <div class="flex">
                 <m-btn
-                    class="bg-green fz22"
+                    class="bg-green"
                     :title="btnGuestChoose"
                     @click="guestChoose"
                 />
                 <m-btn
-                    class="bg-green fz22"
+                    class="bg-green"
                     :title="btnCancel"
                     @click="cancelOrder"
                 />
                 <m-btn
-                    class="fz22"
+                    class=""
                     :title="btnSave"
                     :disabled="!localCart"
                     @click="saveOrder"
                 />
                 <m-btn
-                    class="fz22"
+                    class=""
                     :title="btnPay"
                     :disabled="!localCart"
                     @click="payOrder"
