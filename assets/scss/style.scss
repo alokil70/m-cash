@@ -188,12 +188,20 @@ html, body {
     width: 1100px;
 }
 
-.page-enter-active, .page-leave-active {
+/*.page-enter-active, .page-leave-active {
     transition: opacity .2s;
 }
 
 .page-enter, .page-leave-to {
     opacity: 0;
+}*/
+
+.page-enter-active, .page-leave-active {
+    transform: translateX(100);
+}
+
+.page-enter, .page-leave-to {
+    transform: translateX(0);
 }
 
 
