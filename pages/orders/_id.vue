@@ -172,8 +172,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('cart/CLEAN_CART')
-        this.localCart = this.order.positions
-        console.log('mounted _id', this.order)
+        this.localCart = this.order.positions ? this.order.positions : ''
         this.selectedCategory = this.category[0]
     },
     methods: {
@@ -195,12 +194,11 @@ export default {
             this.disabled = true
             const data = {
                 id: this.order.id,
-                positions: this.localCart,
+                positions: this.localCart ? this.localCart : '',
                 user: this.$auth.user.email,
                 isPayed: false,
                 totalCostOrder: null,
             }
-            console.log(data)
             await this.$store.dispatch('cart/CLEAN_CART')
             await this.$store.dispatch('order/UPDATE_ORDER', data)
             this.localCart = []
@@ -211,13 +209,11 @@ export default {
             this.disabled = true
             const data = {
                 id: this.order.id,
-                positions: this.localCart,
+                positions: this.localCart ? this.localCart : '',
                 user: this.$auth.user.email,
                 isPayed: true,
                 totalCostOrder: this.cost,
             }
-            console.log(data)
-            console.log(this.order)
             await this.$store.dispatch('cart/CLEAN_CART')
             await this.$store.dispatch('order/UPDATE_ORDER', data)
             this.localCart = []
