@@ -92,7 +92,7 @@ export default {
         itemFilteredList() {
             if (this.selectedCategory) {
                 return this.products.filter(
-                    (i) => i.CategoryId === this.selectedCategory.id
+                    (i) => i.CategoryId === this.selectedCategory.id,
                 )
             } else {
                 return []

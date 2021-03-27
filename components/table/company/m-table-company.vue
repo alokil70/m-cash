@@ -75,14 +75,14 @@ export default {
             this.$modal.show(
                 MForm,
                 { height: 'auto' },
-                { height: 'auto', width: '50%' }
+                { height: 'auto', width: '50%' },
             )
         },
         addUser() {
             this.$modal.show(
                 MUserCreate,
                 { height: '50%' },
-                { height: '50%', width: '50%' }
+                { height: '50%', width: '50%' },
             )
             /* this.$modal.show('my-first-modal2', MUserCreate) */
         },

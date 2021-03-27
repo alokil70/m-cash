@@ -12,8 +12,8 @@
             ></m-btn-product>
         </div>
         <div class="flex">
-            <div class="m12">смена {{ shift.number }}</div>
-            <div class="m12">Открыта? {{ shift.isOpen }}</div>
+            <div v-if="shift" class="m12">смена {{ shift.number }}</div>
+            <div v-if="shift" class="m12">Открыта? {{ shift.isOpen }}</div>
             <div class="m12">Всего {{ total }} руб</div>
         </div>
         <div>
@@ -70,17 +70,17 @@ export default {
             const last = this.cashShift[this.cashShift.length - 1]
             if (this.cashShiftLengthChange) {
                 return this.cashShift.find(
-                    (item) => item.id === this.cashShiftLengthChange
+                    (item) => item.id === this.cashShiftLengthChange,
                 )
             }
             return last
         },
         orderListFilterByUserAndShift() {
             const ordersFilteredByShift = this.orderList.filter(
-                (item) => item.CashShiftId === this.shift.id
+                (item) => item.CashShiftId === this.shift.id,
             )
             const ordersFilteredByUser = ordersFilteredByShift.filter(
-                (item) => item.user === this.$auth.user.email
+                (item) => item.user === this.$auth.user.email,
             )
             return ordersFilteredByUser.sort((a, b) => a.number - b.number)
         },

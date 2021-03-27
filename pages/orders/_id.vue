@@ -71,7 +71,7 @@
                     :key="item.product.id"
                     class="flex-between m6"
                 >
-                    <h3 class="w100p">{{ item.product.productName }}</h3>
+                    <h3 class="w100p">{{ item.product.title }}</h3>
                     <h3 class="w150">
                         {{ item.quantity }} x {{ item.product.price }} р
                     </h3>
@@ -84,7 +84,7 @@
                 <m-btn-product
                     v-for="item in itemFilteredListByCategory"
                     :key="item.id"
-                    :title="item.productName"
+                    :title="item.title"
                     @click="addToCart(item)"
                 />
             </div>
@@ -93,7 +93,7 @@
             <m-btn-product
                 v-for="item in category"
                 :key="item.id"
-                :title="item.categoryName"
+                :title="item.title"
                 @click="selectCategory(item)"
             />
         </div>
@@ -147,7 +147,7 @@ export default {
             return this.getOrder(
                 Number(this.$route.params.id),
                 this.lastShift,
-                this.$auth.user
+                this.$auth.user,
             )
         },
         cost() {
@@ -163,7 +163,7 @@ export default {
         itemFilteredListByCategory() {
             if (this.selectedCategory) {
                 return this.products.filter(
-                    (i) => i.CategoryId === this.selectedCategory.id
+                    (i) => i.CategoryId === this.selectedCategory.id,
                 )
             } else {
                 return []
@@ -177,12 +177,6 @@ export default {
         this.selectedCategory = this.category[0]
     },
     methods: {
-        keyboard(btn) {
-            this.input += btn
-        },
-        cleanKeyboardInput() {
-            this.input = ''
-        },
         addToCart(data) {
             this.$store.dispatch('cart/ADD_TO_CART', {
                 product: data,

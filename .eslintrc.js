@@ -9,12 +9,18 @@ module.exports = {
     },
     extends: [
         '@nuxtjs',
-        'prettier',
-        'prettier/vue',
         'plugin:prettier/recommended',
         'plugin:nuxt/recommended',
     ],
-    plugins: ['prettier'],
+    plugins: [],
     // add your custom rules here
-    rules: { 'no-console': 'off', 'no-unused-vars': 'off' },
+    rules: {
+        'no-console': 'off',
+        'no-undef': 'off',
+        'vue/no-unused-vars': 'off',
+        'vue/no-unused-components': 'off',
+        'nuxt/no-this-in-fetch-data': 'off',
+        'no-unused-vars': 'off',
+        'no-debugger': 'off',
+    },
 }

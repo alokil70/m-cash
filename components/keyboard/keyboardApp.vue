@@ -1,52 +1,5 @@
 <template>
-    <div>
-        <!--<keyboard
-            :input="input"
-            @onChange="onChange"
-            @onKeyPress="onKeyPress"
-        />-->
-        <div class="flex">
-            <m-btn-keyboard
-                v-for="item of arrayKeys.numbers"
-                :title="item"
-                class="black m6"
-                @click="onKeyPress"
-            />
-            <m-btn title="Очистить" @click="clean" />
-        </div>
-        <div class="flex">
-            <m-btn-keyboard
-                v-for="item of arrayKeys.firstRow"
-                :title="item"
-                class="black m6"
-                @click="onKeyPress"
-            />
-        </div>
-        <div class="flex">
-            <m-btn-keyboard
-                v-for="item of arrayKeys.secondRow"
-                :title="item"
-                class="black m6"
-                @click="onKeyPress"
-            />
-        </div>
-        <div class="flex">
-            <m-btn-keyboard
-                v-for="item of arrayKeys.thirdRow"
-                :title="item"
-                class="black m6"
-                @click="onKeyPress"
-            />
-        </div>
-        <div class="flex">
-            <m-btn-keyboard
-                v-for="item of arrayKeys.fourthRow"
-                :title="item"
-                class="black m6"
-                @click="onKeyPress"
-            />
-        </div>
-    </div>
+    <div></div>
 </template>
 
 <script>
@@ -55,7 +8,6 @@ import MBtn from '@/components/button/m-btn'
 
 export default {
     name: 'KeyboardApp',
-    components: { MBtn, MBtnKeyboard },
     data: () => ({
         input: '',
         arrayKeys: {

@@ -51,13 +51,13 @@ export const getters = {
     GET_ORDER_BY_NUMBER_FILTERED_USER_CASHSHIFT: (s) => (
         number,
         shift,
-        user
+        user,
     ) => {
         const ordersFilteredByShift = s.orderList.filter(
-            (item) => item.CashShiftId === shift.id
+            (item) => item.CashShiftId === shift.id,
         )
         const ordersFilteredByUser = ordersFilteredByShift.filter(
-            (item) => item.user === user.email
+            (item) => item.user === user.email,
         )
         return ordersFilteredByUser.find((item) => item.number === number)
     },
