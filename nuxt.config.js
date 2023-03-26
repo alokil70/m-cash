@@ -1,5 +1,5 @@
-import { URL } from './config/var'
-
+// import { URL } from './config/var'
+const URL = process.env.API_URL
 export default {
     // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
     ssr: false,
@@ -61,7 +61,7 @@ export default {
                     user: {
                         url: '/auth/user',
                         method: 'get',
-                        propertyName: 'user',
+                        propertyName: '',
                     },
                 },
                 // tokenRequired: true,

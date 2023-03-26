@@ -14,7 +14,7 @@ export const actions = {
         if (token) {
             this.$axios({
                 method: 'get',
-                url: '/api/auth/serv-user',
+                url: '/api/auth/user',
                 headers: {
                     Authorization: 'Bearer ' + token.split(' ')[2],
                 },

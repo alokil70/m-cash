@@ -27,11 +27,11 @@ export default {
     data() {
         return {
             user: {
-                name: '',
-                email: '',
-                city: '',
-                company: '',
-                password: '',
+                name: 'Николай Минаев',
+                email: 'user1@gmail.com',
+                city: 'Пятигорск',
+                company: 'Рога копыта',
+                password: 'qwertyuiop',
             },
             columnName: [
                 {
@@ -88,19 +88,17 @@ export default {
     },
     methods: {
         userRegister({ store }) {
-            /* try {
-                await this.$axios
-                    .post('/auth/register', this.user)
-                    .then((e) => {
-                        if (e.status === 201) {
-                            this.$router.push('/auth/login')
-                        } else {
-                            console.log(e.statusText)
-                        }
-                    })
+            try {
+                this.$axios.post('/users', this.user).then((e) => {
+                    if (e.status === 201) {
+                        this.$router.push('/auth/login')
+                    } else {
+                        console.log(e.statusText)
+                    }
+                })
             } catch (err) {
                 console.log(err)
-            } */
+            }
             this.columnName.forEach((i) => {
                 this.user[i.field] = i.value
             })
